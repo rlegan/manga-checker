@@ -1,20 +1,23 @@
-import axios, { AxiosResponse } from "axios";
+import { checkIfOut } from "./src/manga";
+
+let mangas = {
+  "one-piece": 985,
+  "dr-stone": 158,
+};
+
+const checkAllMangas = async () => {
+  for (let manga in mangas) {
+    const chapter = mangas[manga];
+    const res = await checkIfOut(manga, chapter);
+    if (res) {
+      mangas[manga] += 1;
+    }
+    console.log(res);
+  }
+};
 
 const init = async () => {
-  try {
-    const req: AxiosResponse = await axios.get(
-      "https://lelscan-vf.com/manga/one-piece/984",
-      {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36",
-        },
-      }
-    );
-    console.log(req.status);
-  } catch (err) {
-    console.log(err.response.status);
-  }
+  await checkAllMangas();
 };
 
 init();
