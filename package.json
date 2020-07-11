@@ -1,0 +1,21 @@
+{
+  "name": "manga-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node --project tsconfig.json index.ts",
+    "clean": "rm -rf node_modules/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.0.22",
+    "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "http": "0.0.1-security"
+  }
+}
