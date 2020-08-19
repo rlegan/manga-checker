@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from "axios";
+import { sendMessage } from "./discord";
+import { MangaInterfaceDocument, MangaInterfaceModel } from "./database/mangas";
 
 export const checkIfOut = async (
   manga: string,
@@ -22,4 +24,24 @@ export const checkIfOut = async (
     console.log(`${manga} : #${chapter} not out yet :(`);
     return false;
   }
+};
+
+export const checkAllMangas = async (db: MangaInterfaceModel) => {
+  const allMangas = (await db.find()) as MangaInterfaceDocument[];
+  allMangas.forEach(async (manga: MangaInterfaceDocument) => {
+    const chapter = manga.chapter;
+    const isOut = await checkIfOut(manga.name, chapter);
+    if (isOut) {
+      await sendMessage(
+        `${manga.displayName} : Chapter #${manga.chapter} is out ! : https://lelscan-vf.com/manga/${manga.name}/${manga.chapter}`
+      );
+      await mangaIsOut(db, manga._id);
+    }
+  });
+};
+
+const mangaIsOut = async (db: MangaInterfaceModel, mangaId: any) => {
+  const mang = await db.findById(mangaId);
+  mang!.chapter += 1;
+  mang!.save();
 };
