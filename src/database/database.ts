@@ -1,12 +1,10 @@
 import * as Mongoose from "mongoose";
 import { MangaModel } from "./mangas/MangaModel";
+import { MONGO_URI } from "../constant";
 
 let database: Mongoose.Connection;
 export const connect = () => {
-  const uri =
-    "mongodb://mangauser:6fwtqeOm5yXDlOxU@manga-shard-00-00.or6cu.mongodb.net:27017,manga-shard-00-01.or6cu.mongodb.net:27017,manga-shard-00-02.or6cu.mongodb.net:27017/manga?ssl=true&replicaSet=atlas-g7vhb4-shard-0&authSource=admin&retryWrites=true&w=majority";
-
-  Mongoose.connect(uri, {
+  Mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useFindAndModify: true,
     useUnifiedTopology: true,
