@@ -1,23 +1,20 @@
-import { checkIfOut } from "./src/manga";
+import { checkAllMangas } from "./src/manga";
+import { connect } from "./src/database/database";
 
-let mangas = {
-  "one-piece": 985,
-  "dr-stone": 158,
+const delay = (s: number) => {
+  return new Promise((resolve) => setTimeout(resolve, s * 1000));
 };
 
-const checkAllMangas = async () => {
-  for (let manga in mangas) {
-    const chapter = mangas[manga];
-    const res = await checkIfOut(manga, chapter);
-    if (res) {
-      mangas[manga] += 1;
-    }
-    console.log(res);
-  }
-};
+function randomIntFromInterval(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 const init = async () => {
-  await checkAllMangas();
+  const db = connect();
+  while (true) {
+    await checkAllMangas(db);
+    await delay(randomIntFromInterval(900, 2700));
+  }
 };
 
 init();
