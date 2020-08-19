@@ -33,7 +33,9 @@ export const checkAllMangas = async (db: MangaInterfaceModel) => {
     const isOut = await checkIfOut(manga.name, chapter);
     if (isOut) {
       await sendMessage(
-        `${manga.displayName} : Chapter #${manga.chapter} is out ! : https://lelscan-vf.com/manga/${manga.name}/${manga.chapter}`
+        manga.displayName,
+        manga.chapter,
+        `https://lelscan-vf.com/manga/${manga.name}/${manga.chapter}`
       );
       await mangaIsOut(db, manga._id);
     }
